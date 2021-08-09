@@ -1,0 +1,38 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "name": "张三"
+        },
+        {
+            "id": 2,
+            "name": "李四"
+        }
+    ],
+    "list": [
+       {
+           "id":1,
+           "name": "骑手管理",
+           "userId": 1,
+           "organization": "外卖组"
+       },
+       {
+            "id":2,
+            "name": "商家管理",
+            "userId": 1,
+            "organization": "外卖组"
+       },
+       {
+            "id":3,
+            "name": "配送管理",
+            "userId": 2,
+            "organization": "外卖组"
+        },
+        {
+            "id":4,
+            "name": "订单管理",
+            "userId": 2,
+            "organization": "外卖组"
+        } 
+    ]
+}
