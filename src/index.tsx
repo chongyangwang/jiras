@@ -1,29 +1,30 @@
 /*
- * @Description: 
+ * @Description:
  * @Author: cy2020
  * @Date: 2021-08-03 14:21:06
- * @LastEditTime: 2021-08-09 09:40:36
+ * @LastEditTime: 2021-08-12 15:19:15
  */
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {loadDevTools} from 'jira-dev-tool'
+import "./wdyr";
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { DevTools, loadServer } from "jira-dev-tool";
 // 覆盖jira-dev-tool的antd样式
-import 'antd/dist/antd.less'
-import { AppProviders } from 'context'
+import "antd/dist/antd.less";
+import { AppProviders } from "context";
 
-loadDevTools(()=>{
+loadServer(() => {
   ReactDOM.render(
     <React.StrictMode>
       <AppProviders>
+        <DevTools />
         <App />
       </AppProviders>
     </React.StrictMode>,
-    document.getElementById('root')
+    document.getElementById("root")
   );
-})
+});
 
 /* <Context.Provider>
   <App></App>

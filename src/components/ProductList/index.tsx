@@ -1,36 +1,48 @@
 /*
- * @Description: 
+ * @Description:
  * @Author: cy2020
  * @Date: 2021-08-04 11:09:19
- * @LastEditTime: 2021-08-09 11:15:34
+ * @LastEditTime: 2021-08-13 14:11:09
  */
-import React, {useState, useEffect} from 'react'
-import List from './components/List'
-import Forms from './components/Form'
-import { cleanObject, useMount, useDebounce } from 'utils/utils'
-import { useHttp } from 'utils/http'
+import React from "react";
+import List from "./components/List";
+import FormComponent from "./components/Form";
+import { useDebounce } from "utils/utils";
+import styled from "@emotion/styled";
+import { Typography } from "antd";
+import { useListItem } from "../../utils/use-list-item";
+import { useUsers } from "utils/use-user";
+import { useDocumentTitle } from "../../utils/utils";
+import { useProjectSearchParams } from "./util";
 
 export default function ProductList() {
-    const [users, setUsers] = useState([])
-    const [list, setList] = useState([])
-    const [params, setParams] = useState({
-        name: '',
-        userId: ''
-    })
-    const debounceParams = useDebounce(params, 200)
-    const client = useHttp()
-    useMount(() => {
-        client('users').then(setUsers)
-    });
-    // 表单项发生改变时获得资源
-    useEffect(() => {
-        client('list', {data: cleanObject(debounceParams)}).then(setList)
-    }, [debounceParams]);
+  useDocumentTitle("项目列表", false);
+  // const [keys] = useState<('name'|'userId')[]>(['name', 'userId'])
+  const [params, setParams] = useProjectSearchParams();
+  const { isLoading, error, data: list } = useListItem(useDebounce(params));
+  const { data: users } = useUsers();
 
-    return (
-        <div>
-            <Forms users={users} params={params} setParams={setParams}></Forms>
-            <List list={list} users={users}></List>
-        </div>
-    )
+  return (
+    <Container>
+      <h1>项目列表</h1>
+      <FormComponent
+        users={users || []}
+        params={params}
+        setParams={setParams}
+      ></FormComponent>
+      {error ? (
+        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
+      ) : null}
+      <List
+        users={users || []}
+        loading={isLoading}
+        dataSource={list || []}
+      ></List>
+    </Container>
+  );
 }
+
+ProductList.whyDidYouRender = false;
+const Container = styled.div`
+  padding: 3.2rem;
+`;
